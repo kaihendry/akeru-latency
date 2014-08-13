@@ -36,4 +36,5 @@ void loop() {
 
 	Serial.print("Whole string: ");
 	Serial.println(inbuf);
+	Serial.flush();
 }
