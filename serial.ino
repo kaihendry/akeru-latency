@@ -28,16 +28,17 @@ void loop() {
 
 	// Wait for availability of the modem
 	while (!Akeru.isReady()) {
-		Serial.println("Modem not ready");
+	Serial.print(".");
 		delay(1000);
 	}
+	Serial.println("");
 
 	time = millis();
 	//prints time since program started
 	Serial.print("Waiting for read at ");
 	Serial.println(time);
 
-	char inbuf[16];
+	char inbuf[12];
 	int charCtr = 0;
 
 	// send data only when you receive data:
@@ -53,30 +54,36 @@ void loop() {
 
 			inbuf[charCtr++] = incomingByte;
 
-			Serial.print("I received: ");
-			Serial.println(incomingByte, DEC);
+			// Serial.print("I received: ");
+			// Serial.println(incomingByte, DEC);
 		}
 	}
-	Serial.println("DEBUG START");
-	Serial.println(charCtr);
-	Serial.println(inbuf);
-	Serial.println("DEBUG END");
+
+	// Serial.println("DEBUG START");
+	// Serial.println(charCtr);
+	// Serial.println(inbuf);
+	// Serial.println("DEBUG END");
 
 	inbuf[charCtr] = 0;
 
-	Serial.print("Whole string: ");
-	Serial.println(inbuf);
-	Serial.flush();
+	// Serial.print("Whole string: ");
+	// Serial.println(inbuf);
+	// Serial.println(sizeof(inbuf));
+	// Serial.flush();
+
+	long outbuf = String(inbuf).toInt();
+	Serial.print("Epoch time: ");
+	Serial.println(outbuf);
 
 	// LED is on
 	digitalWrite(led, HIGH);
 
 	// Send in the mighty internet!
-	if(Akeru.send(&inbuf,sizeof(inbuf))) {
-		Serial.print("Sending message:");
-		Serial.println(inbuf);
+	if(Akeru.send(&outbuf,sizeof(outbuf))) {
+		Serial.print("Sent message:");
+		Serial.println(outbuf);
 	} else {
-		Serial.println("Message DO NOT SEND");
+		Serial.println("Message did NOT SEND");
 	}
 
 	// LED is off
