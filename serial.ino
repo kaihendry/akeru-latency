@@ -72,7 +72,7 @@ void loop() {
 	// Serial.flush();
 
 	long outbuf = String(inbuf).toInt();
-	Serial.print("Epoch time: ");
+	Serial.print("Received Epoch time: ");
 	Serial.println(outbuf);
 
 	// LED is on
@@ -80,7 +80,7 @@ void loop() {
 
 	// Send in the mighty internet!
 	if(Akeru.send(&outbuf,sizeof(outbuf))) {
-		Serial.print("Sent message:");
+		Serial.print("Sent message over SIGFOX: ");
 		Serial.println(outbuf);
 	} else {
 		Serial.println("Message did NOT SEND");
